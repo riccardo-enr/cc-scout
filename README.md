@@ -79,6 +79,19 @@ or controller number, and velocity or raw CC value. Run the blocking reader
 off the GUI event thread. Functions that return a status use zero for success
 and a negative code on failure. Pass the code to `cc_scout_error` for text.
 
+## Check C formatting
+
+CC Scout follows the formatting rules from the
+[OpenTitan C style guide](https://opentitan.org/book/doc/contributing/style_guides/c_cpp_coding_style.html).
+Install ClangFormat 18 and configure the build as above. Run the check without
+changing any files:
+
+```sh
+cmake --build build --target format-check
+```
+
+To apply formatting, run `clang-format -i src/*.c include/*.h` from the repo root.
+
 ## Future GUI
 
 The GUI will live in a separate repository and follow the desktop's appearance
