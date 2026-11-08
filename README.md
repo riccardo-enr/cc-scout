@@ -58,6 +58,27 @@ Each line starts with its source address. Press a key or pad to see note events,
 or turn a knob to see its controller number and value. Channels are displayed as 1-16. Press Ctrl+C
 to stop. The ALSA sequencer must be accessible at `/dev/snd/seq`.
 
+## Use the C library
+
+Add the core checkout as a CMake subdirectory and link your target to
+`CCScout::core`. Include `cc_scout.h` in your C code.
+
+```cmake
+add_subdirectory(path/to/cc-scout cc-scout-build)
+target_link_libraries(my_frontend PRIVATE CCScout::core)
+```
+
+`cc_scout_open` creates a handle, and `cc_scout_close` releases it and its
+subscriptions. `cc_scout_list_sources` calls your callback for each source.
+Copy the names inside the callback if you need them later.
+
+To monitor, call `cc_scout_prepare_monitor` once and `cc_scout_subscribe` for
+each source. `cc_scout_read_event` blocks until a note or control change arrives
+or a read fails. Events carry a source address, a channel from 1 to 16, a note
+or controller number, and velocity or raw CC value. Run the blocking reader
+off the GUI event thread. Functions that return a status use zero for success
+and a negative code on failure. Pass the code to `cc_scout_error` for text.
+
 ## Future GUI
 
 The GUI will live in a separate repository and follow the desktop's appearance
