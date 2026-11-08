@@ -1,6 +1,8 @@
 #ifndef CC_SCOUT_H
 #define CC_SCOUT_H
 
+#include <poll.h>
+
 typedef struct cc_scout cc_scout;
 
 typedef struct {
@@ -35,6 +37,11 @@ int cc_scout_list_sources(cc_scout *scout, cc_scout_source_fn callback,
 int cc_scout_prepare_monitor(cc_scout *scout);
 int cc_scout_subscribe(cc_scout *scout, cc_scout_address source);
 int cc_scout_set_nonblocking(cc_scout *scout);
+int cc_scout_poll_descriptor_count(cc_scout *scout);
+int cc_scout_poll_descriptors(cc_scout *scout, struct pollfd *fds,
+                              unsigned int count);
+int cc_scout_poll_revents(cc_scout *scout, struct pollfd *fds,
+                          unsigned int count);
 int cc_scout_read_event(cc_scout *scout, cc_scout_event *event);
 
 #endif

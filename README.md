@@ -80,6 +80,15 @@ off the GUI event thread, or call `cc_scout_set_nonblocking` and handle
 `-EAGAIN` when no event is ready. Functions that return a status use zero for success
 and a negative code on failure. Pass the code to `cc_scout_error` for text.
 
+For an event loop, use `cc_scout_poll_descriptor_count` to size a
+`struct pollfd` array and `cc_scout_poll_descriptors` to fill it. The latter
+returns the number of descriptors written. Watch the descriptors until the
+handle is closed. Copy the returned readiness flags into each `revents`
+field and call `cc_scout_poll_revents` for the combined flags or a negative
+error code. When input is ready, read in nonblocking mode until `-EAGAIN`.
+If you cap the reads per dispatch, schedule a continuation because ALSA can
+buffer more events than fit in one batch.
+
 ## Check C formatting
 
 CC Scout follows the formatting rules from the

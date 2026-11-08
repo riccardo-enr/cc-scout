@@ -97,6 +97,23 @@ int cc_scout_set_nonblocking(cc_scout *scout) {
   return snd_seq_nonblock(scout->seq, 1);
 }
 
+int cc_scout_poll_descriptor_count(cc_scout *scout) {
+  return snd_seq_poll_descriptors_count(scout->seq, POLLIN);
+}
+
+int cc_scout_poll_descriptors(cc_scout *scout, struct pollfd *fds,
+                              unsigned int count) {
+  return snd_seq_poll_descriptors(scout->seq, fds, count, POLLIN);
+}
+
+int cc_scout_poll_revents(cc_scout *scout, struct pollfd *fds,
+                          unsigned int count) {
+  unsigned short revents;
+  int result =
+      snd_seq_poll_descriptors_revents(scout->seq, fds, count, &revents);
+  return result < 0 ? result : revents;
+}
+
 int cc_scout_read_event(cc_scout *scout, cc_scout_event *event) {
   if (scout->port < 0) {
     return -EINVAL;
