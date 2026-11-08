@@ -76,7 +76,8 @@ To monitor, call `cc_scout_prepare_monitor` once and `cc_scout_subscribe` for
 each source. `cc_scout_read_event` blocks until a note or control change arrives
 or a read fails. Events carry a source address, a channel from 1 to 16, a note
 or controller number, and velocity or raw CC value. Run the blocking reader
-off the GUI event thread. Functions that return a status use zero for success
+off the GUI event thread, or call `cc_scout_set_nonblocking` and handle
+`-EAGAIN` when no event is ready. Functions that return a status use zero for success
 and a negative code on failure. Pass the code to `cc_scout_error` for text.
 
 ## Check C formatting

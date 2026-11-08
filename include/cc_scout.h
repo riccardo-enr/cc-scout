@@ -34,6 +34,7 @@ int cc_scout_list_sources(cc_scout *scout, cc_scout_source_fn callback,
                           void *userdata);
 int cc_scout_prepare_monitor(cc_scout *scout);
 int cc_scout_subscribe(cc_scout *scout, cc_scout_address source);
+int cc_scout_set_nonblocking(cc_scout *scout);
 int cc_scout_read_event(cc_scout *scout, cc_scout_event *event);
 
 #endif

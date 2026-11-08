@@ -93,6 +93,10 @@ int cc_scout_subscribe(cc_scout *scout, cc_scout_address source) {
                               source.port);
 }
 
+int cc_scout_set_nonblocking(cc_scout *scout) {
+  return snd_seq_nonblock(scout->seq, 1);
+}
+
 int cc_scout_read_event(cc_scout *scout, cc_scout_event *event) {
   if (scout->port < 0) {
     return -EINVAL;
